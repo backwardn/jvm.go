@@ -1,8 +1,6 @@
 package classfile
 
 import (
-	"math"
-
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
 )
 
@@ -29,25 +27,6 @@ cp_info {
     u1 tag;
     u1 info[];
 }
-
-CONSTANT_Integer_info {
-    u1 tag;
-    u4 bytes;
-}
-CONSTANT_Float_info {
-    u1 tag;
-    u4 bytes;
-}
-CONSTANT_Long_info {
-    u1 tag;
-    u4 high_bytes;
-    u4 low_bytes;
-}
-CONSTANT_Double_info {
-    u1 tag;
-    u4 high_bytes;
-    u4 low_bytes;
-}
 */
 type ConstantInfo interface {
 	//readInfo(reader *ClassReader)
@@ -60,15 +39,15 @@ func readConstantInfo(reader *ClassReader, cp *ConstantPool) ConstantInfo {
 	tag := reader.readUint8()
 	switch tag {
 	case CONSTANT_Integer:
-		return int32(reader.readUint32())
+		return readConstantIntegerInfo(reader)
 	case CONSTANT_Float:
-		return math.Float32frombits(reader.readUint32())
+		return readConstantFloatInfo(reader)
 	case CONSTANT_Long:
-		return int64(reader.readUint64())
+		return readConstantLongInfo(reader)
 	case CONSTANT_Double:
-		return math.Float64frombits(reader.readUint64())
+		return readConstantDoubleInfo(reader)
 	case CONSTANT_Utf8:
-		return readUtf8(reader)
+		return readConstantUtf8Info(reader)
 	}
 
 	c := newConstantInfo(tag, cp)
