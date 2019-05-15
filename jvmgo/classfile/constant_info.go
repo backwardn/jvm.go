@@ -29,6 +29,25 @@ cp_info {
     u1 tag;
     u1 info[];
 }
+
+CONSTANT_Integer_info {
+    u1 tag;
+    u4 bytes;
+}
+CONSTANT_Float_info {
+    u1 tag;
+    u4 bytes;
+}
+CONSTANT_Long_info {
+    u1 tag;
+    u4 high_bytes;
+    u4 low_bytes;
+}
+CONSTANT_Double_info {
+    u1 tag;
+    u4 high_bytes;
+    u4 low_bytes;
+}
 */
 type ConstantInfo interface {
 	//readInfo(reader *ClassReader)
