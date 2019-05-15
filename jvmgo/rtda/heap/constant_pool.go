@@ -12,7 +12,7 @@ type ConstantPool struct {
 }
 
 func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
-	cpInfos := cfCp.Infos()
+	cpInfos := cfCp.Infos
 	consts := make([]Constant, len(cpInfos))
 	rtCp := &ConstantPool{owner, consts}
 
