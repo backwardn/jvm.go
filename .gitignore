@@ -7,3 +7,5 @@ jvmgo.sublime-workspace
 
 .DS_Store
 *.swp
+
+/java
