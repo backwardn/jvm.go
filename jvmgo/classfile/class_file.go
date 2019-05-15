@@ -29,8 +29,8 @@ type ClassFile struct {
 	thisClass    uint16
 	superClass   uint16
 	interfaces   []uint16
-	Fields       []*MemberInfo
-	Methods      []*MemberInfo
+	Fields       []MemberInfo
+	Methods      []MemberInfo
 	AttributeTable
 }
 
