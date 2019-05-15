@@ -26,8 +26,8 @@ type LocalVariableTypeTableEntry struct {
 }
 
 func (self *LocalVariableTypeTableAttribute) readInfo(reader *ClassReader) {
-	localVariableTypeTableLength := reader.readUint16()
-	self.localVariableTypeTable = make([]LocalVariableTypeTableEntry, localVariableTypeTableLength)
+	tableLength := reader.readUint16()
+	self.localVariableTypeTable = make([]LocalVariableTypeTableEntry, tableLength)
 	for i := range self.localVariableTypeTable {
 		self.localVariableTypeTable[i] = LocalVariableTypeTableEntry{
 			startPc:        reader.readUint16(),

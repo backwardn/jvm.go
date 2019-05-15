@@ -44,8 +44,8 @@ type ExceptionTableEntry struct {
 }
 
 func readExceptionTable(reader *ClassReader) []ExceptionTableEntry {
-	exceptionTableLength := reader.readUint16()
-	exceptionTable := make([]ExceptionTableEntry, exceptionTableLength)
+	tableLength := reader.readUint16()
+	exceptionTable := make([]ExceptionTableEntry, tableLength)
 	for i := range exceptionTable {
 		exceptionTable[i] = ExceptionTableEntry{
 			StartPc:   reader.readUint16(),
