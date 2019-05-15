@@ -67,6 +67,8 @@ func readConstantInfo(reader *ClassReader, cp *ConstantPool) ConstantInfo {
 		return int64(reader.readUint64())
 	case CONSTANT_Double:
 		return math.Float64frombits(reader.readUint64())
+	case CONSTANT_Utf8:
+		return readUtf8(reader)
 	}
 
 	c := newConstantInfo(tag, cp)
@@ -77,8 +79,7 @@ func readConstantInfo(reader *ClassReader, cp *ConstantPool) ConstantInfo {
 // todo ugly code
 func newConstantInfo(tag uint8, cp *ConstantPool) ConstantInfo2 {
 	switch tag {
-	case CONSTANT_Utf8:
-		return &ConstantUtf8Info{}
+
 	case CONSTANT_String:
 		return &ConstantStringInfo{cp: cp}
 	case CONSTANT_Class:
