@@ -28,12 +28,8 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
 			consts[i] = cpInfo.(*cf.ConstantStringInfo).String()
 		case *cf.ConstantClassInfo:
 			consts[i] = newConstantClass(cpInfo.(*cf.ConstantClassInfo))
-		case *cf.ConstantFieldrefInfo:
-			consts[i] = newConstantFieldref(cpInfo.(*cf.ConstantFieldrefInfo))
-		case *cf.ConstantMethodrefInfo:
-			consts[i] = newConstantMethodref(cpInfo.(*cf.ConstantMethodrefInfo))
-		case *cf.ConstantInterfaceMethodrefInfo:
-			consts[i] = newConstantInterfaceMethodref(cpInfo.(*cf.ConstantInterfaceMethodrefInfo))
+		case *cf.ConstantMemberrefInfo:
+			consts[i] = newConstantMemberref(cpInfo.(*cf.ConstantMemberrefInfo))
 		case *cf.ConstantInvokeDynamicInfo:
 			consts[i] = newConstantInvokeDynamic(rtCp, cpInfo.(*cf.ConstantInvokeDynamicInfo))
 		case *cf.ConstantMethodHandleInfo:
