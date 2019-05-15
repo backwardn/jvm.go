@@ -15,8 +15,10 @@ func (self *ConstantClassInfo) Name() string {
 	return self.cp.getUtf8(self.nameIndex)
 }
 
-func readConstantClassInfo(reader *ClassReader, cp *ConstantPool) *ConstantClassInfo {
-	return &ConstantClassInfo{
+func readConstantClassInfo(reader *ClassReader,
+	cp *ConstantPool) ConstantClassInfo {
+
+	return ConstantClassInfo{
 		cp:        cp,
 		nameIndex: reader.readUint16(),
 	}

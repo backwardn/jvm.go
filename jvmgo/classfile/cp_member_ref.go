@@ -31,8 +31,10 @@ func (self *ConstantMemberrefInfo) NameAndDescriptor() (string, string) {
 	return self.cp.getNameAndType(self.nameAndTypeIndex)
 }
 
-func readConstantMemberrefInfo(reader *ClassReader, cp *ConstantPool, tag uint8) *ConstantMemberrefInfo {
-	return &ConstantMemberrefInfo{
+func readConstantMemberrefInfo(reader *ClassReader,
+	cp *ConstantPool, tag uint8) ConstantMemberrefInfo {
+
+	return ConstantMemberrefInfo{
 		Tag:              tag,
 		cp:               cp,
 		classIndex:       reader.readUint16(),
