@@ -21,7 +21,7 @@ ClassFile {
 }
 */
 type ClassFile struct {
-	//magic           uint32
+	//magic      uint32
 	minorVersion uint16
 	majorVersion uint16
 	ConstantPool ConstantPool
