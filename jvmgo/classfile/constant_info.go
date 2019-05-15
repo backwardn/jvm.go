@@ -28,12 +28,7 @@ cp_info {
     u1 info[];
 }
 */
-type ConstantInfo interface {
-	//readInfo(reader *ClassReader)
-}
-type ConstantInfo2 interface {
-	readInfo(reader *ClassReader)
-}
+type ConstantInfo interface{}
 
 func readConstantInfo(reader *ClassReader, cp *ConstantPool) ConstantInfo {
 	tag := reader.readUint8()
@@ -52,26 +47,18 @@ func readConstantInfo(reader *ClassReader, cp *ConstantPool) ConstantInfo {
 		return readConstantStringInfo(reader, cp)
 	case CONSTANT_Class:
 		return readConstantClassInfo(reader, cp)
-	case CONSTANT_Fieldref, CONSTANT_Methodref, CONSTANT_InterfaceMethodref:
+	case CONSTANT_Fieldref,
+		CONSTANT_Methodref,
+		CONSTANT_InterfaceMethodref:
 		return readConstantMemberrefInfo(reader, cp, tag)
-	}
-
-	c := newConstantInfo(tag, cp)
-	c.readInfo(reader)
-	return c
-}
-
-// todo ugly code
-func newConstantInfo(tag uint8, cp *ConstantPool) ConstantInfo2 {
-	switch tag {
 	case CONSTANT_NameAndType:
-		return &ConstantNameAndTypeInfo{}
+		return readConstantNameAndTypeInfo(reader)
 	case CONSTANT_MethodType:
-		return &ConstantMethodTypeInfo{}
+		return readConstantMethodTypeInfo(reader)
 	case CONSTANT_MethodHandle:
-		return &ConstantMethodHandleInfo{}
+		return readConstantMethodHandleInfo(reader)
 	case CONSTANT_InvokeDynamic:
-		return &ConstantInvokeDynamicInfo{cp: cp}
+		return readConstantInvokeDynamicInfo(reader, cp)
 	default: // todo
 		jutil.Panicf("BAD constant pool tag: %v", tag)
 		return nil
