@@ -15,7 +15,7 @@ type Field struct {
 func newField(class *Class, fieldInfo *cf.MemberInfo) *Field {
 	field := &Field{}
 	field.class = class
-	field.accessFlags = fieldInfo.AccessFlags()
+	field.accessFlags = fieldInfo.AccessFlags
 	field.name = fieldInfo.Name()
 	field.descriptor = fieldInfo.Descriptor()
 	field.signature = fieldInfo.Signature()
