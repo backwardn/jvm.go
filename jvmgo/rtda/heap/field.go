@@ -21,7 +21,7 @@ func newField(class *Class, fieldInfo *cf.MemberInfo) *Field {
 	field.signature = fieldInfo.Signature()
 	field.IsLongOrDouble = (field.descriptor == "J" || field.descriptor == "D")
 	if kValAttr := fieldInfo.ConstantValueAttribute(); kValAttr != nil {
-		field.constValueIndex = kValAttr.ConstantValueIndex()
+		field.constValueIndex = kValAttr.ConstantValueIndex
 	}
 	return field
 }
