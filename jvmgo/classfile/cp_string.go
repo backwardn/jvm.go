@@ -11,7 +11,7 @@ type ConstantStringInfo struct {
 	stringIndex uint16
 }
 
-func (self *ConstantStringInfo) String() string {
+func (self ConstantStringInfo) String() string {
 	return self.cp.getUtf8(self.stringIndex)
 }
 
