@@ -1,21 +1,12 @@
 package classfile
 
-import "math"
-
 /*
 CONSTANT_Integer_info {
     u1 tag;
     u4 bytes;
 }
 */
-type ConstantIntegerInfo struct {
-	Value int32
-}
-
-func (self *ConstantIntegerInfo) readInfo(reader *ClassReader) {
-	bytes := reader.readUint32()
-	self.Value = int32(bytes)
-}
+// type ConstantIntegerInfo = int32
 
 /*
 CONSTANT_Float_info {
@@ -23,14 +14,7 @@ CONSTANT_Float_info {
     u4 bytes;
 }
 */
-type ConstantFloatInfo struct {
-	Value float32
-}
-
-func (self *ConstantFloatInfo) readInfo(reader *ClassReader) {
-	bytes := reader.readUint32()
-	self.Value = math.Float32frombits(bytes)
-}
+// type ConstantFloatInfo = float32
 
 /*
 CONSTANT_Long_info {
@@ -39,14 +23,7 @@ CONSTANT_Long_info {
     u4 low_bytes;
 }
 */
-type ConstantLongInfo struct {
-	Value int64
-}
-
-func (self *ConstantLongInfo) readInfo(reader *ClassReader) {
-	bytes := reader.readUint64()
-	self.Value = int64(bytes)
-}
+// type ConstantLongInfo = int64
 
 /*
 CONSTANT_Double_info {
@@ -55,11 +32,4 @@ CONSTANT_Double_info {
     u4 low_bytes;
 }
 */
-type ConstantDoubleInfo struct {
-	Value float64
-}
-
-func (self *ConstantDoubleInfo) readInfo(reader *ClassReader) {
-	bytes := reader.readUint64()
-	self.Value = math.Float64frombits(bytes)
-}
+// type ConstantDoubleInfo = float64

@@ -1,6 +1,8 @@
 package classfile
 
 import (
+	"math"
+
 	"github.com/zxh0/jvm.go/jvmgo/jutil"
 )
 
@@ -29,27 +31,33 @@ cp_info {
 }
 */
 type ConstantInfo interface {
+	//readInfo(reader *ClassReader)
+}
+type ConstantInfo2 interface {
 	readInfo(reader *ClassReader)
 }
 
 func readConstantInfo(reader *ClassReader, cp *ConstantPool) ConstantInfo {
 	tag := reader.readUint8()
+	switch tag {
+	case CONSTANT_Integer:
+		return int32(reader.readUint32())
+	case CONSTANT_Float:
+		return math.Float32frombits(reader.readUint32())
+	case CONSTANT_Long:
+		return int64(reader.readUint64())
+	case CONSTANT_Double:
+		return math.Float64frombits(reader.readUint64())
+	}
+
 	c := newConstantInfo(tag, cp)
 	c.readInfo(reader)
 	return c
 }
 
 // todo ugly code
-func newConstantInfo(tag uint8, cp *ConstantPool) ConstantInfo {
+func newConstantInfo(tag uint8, cp *ConstantPool) ConstantInfo2 {
 	switch tag {
-	case CONSTANT_Integer:
-		return &ConstantIntegerInfo{}
-	case CONSTANT_Float:
-		return &ConstantFloatInfo{}
-	case CONSTANT_Long:
-		return &ConstantLongInfo{}
-	case CONSTANT_Double:
-		return &ConstantDoubleInfo{}
 	case CONSTANT_Utf8:
 		return &ConstantUtf8Info{}
 	case CONSTANT_String:

@@ -19,15 +19,10 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
 	for i := 1; i < len(cpInfos); i++ {
 		cpInfo := cpInfos[i]
 		switch cpInfo.(type) {
-		case *cf.ConstantIntegerInfo:
-			consts[i] = cpInfo.(*cf.ConstantIntegerInfo).Value
-		case *cf.ConstantFloatInfo:
-			consts[i] = cpInfo.(*cf.ConstantFloatInfo).Value
-		case *cf.ConstantLongInfo:
-			consts[i] = cpInfo.(*cf.ConstantLongInfo).Value
-			i++
-		case *cf.ConstantDoubleInfo:
-			consts[i] = cpInfo.(*cf.ConstantDoubleInfo).Value
+		case int32, float32:
+			consts[i] = cpInfo
+		case int64, float64:
+			consts[i] = cpInfo
 			i++
 		case *cf.ConstantStringInfo:
 			consts[i] = cpInfo.(*cf.ConstantStringInfo).String()
