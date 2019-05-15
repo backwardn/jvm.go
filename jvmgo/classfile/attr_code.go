@@ -20,33 +20,20 @@ Code_attribute {
 */
 type CodeAttribute struct {
 	cp             *ConstantPool
-	maxStack       uint16
-	maxLocals      uint16
-	code           []byte
-	exceptionTable []*ExceptionTableEntry
+	MaxStack       uint16
+	MaxLocals      uint16
+	Code           []byte
+	ExceptionTable []*ExceptionTableEntry
 	AttributeTable
 }
 
 func (self *CodeAttribute) readInfo(reader *ClassReader) {
-	self.maxStack = reader.readUint16()
-	self.maxLocals = reader.readUint16()
+	self.MaxStack = reader.readUint16()
+	self.MaxLocals = reader.readUint16()
 	codeLength := reader.readUint32()
-	self.code = reader.readBytes(codeLength)
-	self.exceptionTable = readExceptionTable(reader)
+	self.Code = reader.readBytes(codeLength)
+	self.ExceptionTable = readExceptionTable(reader)
 	self.attributes = readAttributes(reader, self.cp)
-}
-
-func (self *CodeAttribute) MaxStack() uint {
-	return uint(self.maxStack)
-}
-func (self *CodeAttribute) MaxLocals() uint {
-	return uint(self.maxLocals)
-}
-func (self *CodeAttribute) Code() []byte {
-	return self.code
-}
-func (self *CodeAttribute) ExceptionTable() []*ExceptionTableEntry {
-	return self.exceptionTable
 }
 
 type ExceptionTableEntry struct {

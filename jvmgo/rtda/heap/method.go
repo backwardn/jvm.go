@@ -53,13 +53,13 @@ func (self *Method) copyAttributes(methodInfo *cf.MemberInfo) {
 	if codeAttr := methodInfo.CodeAttribute(); codeAttr != nil {
 		self.exceptions = methodInfo.ExceptionsAttribute()
 		self.signature = methodInfo.Signature()
-		self.code = codeAttr.Code()
-		self.maxStack = codeAttr.MaxStack()
-		self.maxLocals = codeAttr.MaxLocals()
+		self.code = codeAttr.Code
+		self.maxStack = uint(codeAttr.MaxStack)
+		self.maxLocals = uint(codeAttr.MaxLocals)
 		self.lineNumberTable = codeAttr.LineNumberTableAttribute()
-		if len(codeAttr.ExceptionTable()) > 0 {
+		if len(codeAttr.ExceptionTable) > 0 {
 			rtCp := self.class.constantPool
-			self.copyExceptionTable(codeAttr.ExceptionTable(), rtCp)
+			self.copyExceptionTable(codeAttr.ExceptionTable, rtCp)
 		}
 	}
 	self.annotationData = methodInfo.RuntimeVisibleAnnotationsAttributeData()
