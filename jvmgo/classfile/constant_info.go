@@ -48,6 +48,10 @@ func readConstantInfo(reader *ClassReader, cp *ConstantPool) ConstantInfo {
 		return readConstantDoubleInfo(reader)
 	case CONSTANT_Utf8:
 		return readConstantUtf8Info(reader)
+	case CONSTANT_String:
+		return readConstantStringInfo(reader, cp)
+	case CONSTANT_Class:
+		return readConstantClassInfo(reader, cp)
 	}
 
 	c := newConstantInfo(tag, cp)
@@ -58,11 +62,6 @@ func readConstantInfo(reader *ClassReader, cp *ConstantPool) ConstantInfo {
 // todo ugly code
 func newConstantInfo(tag uint8, cp *ConstantPool) ConstantInfo2 {
 	switch tag {
-
-	case CONSTANT_String:
-		return &ConstantStringInfo{cp: cp}
-	case CONSTANT_Class:
-		return &ConstantClassInfo{cp: cp}
 	case CONSTANT_Fieldref:
 		return &ConstantFieldrefInfo{ConstantMemberrefInfo{cp: cp}}
 	case CONSTANT_Methodref:
