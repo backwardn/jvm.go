@@ -1,7 +1,7 @@
 package main
 
 import (
-	"errors"
+	"fmt"
 	"strconv"
 	"strings"
 )
@@ -61,7 +61,7 @@ func parseOptions(args *[]string) (Options, error) {
 			options.XuseJavaHome = true
 		default:
 			if !strings.HasPrefix(optionName, "-Xss") {
-				return options, errors.New("Unrecognized option: " + optionName)
+				return options, fmt.Errorf("Unrecognized option: %s", optionName)
 			}
 			ss, err := parseXss(optionName)
 			if err != nil {
@@ -104,5 +104,5 @@ func parseSS(size string, unit int) (int, error) {
 	if i, err := strconv.Atoi(size); err == nil {
 		return i * unit, nil
 	}
-	return 0, errors.New("Invalid thread stack size: -Xss")
+	return 0, fmt.Errorf("Invalid thread stack size: -Xss")
 }
