@@ -6,20 +6,9 @@ import (
 
 // java [ options ] class [ arguments ]
 type Command struct {
-	options *Options
-	class   string
-	args    []string
-}
-
-// getters
-func (self *Command) Class() string {
-	return self.class
-}
-func (self *Command) Args() []string {
-	return self.args
-}
-func (self *Command) Options() *Options {
-	return self.options
+	Options *Options
+	Class   string
+	Args    []string
 }
 
 func ParseCommand(osArgs []string) (cmd *Command, err error) {
@@ -35,9 +24,9 @@ func ParseCommand(osArgs []string) (cmd *Command, err error) {
 
 	argReader := &ArgReader{osArgs[1:]}
 	cmd = &Command{
-		options: parseOptions(argReader),
-		class:   argReader.removeFirst(),
-		args:    argReader.args,
+		Options: parseOptions(argReader),
+		Class:   argReader.removeFirst(),
+		Args:    argReader.args,
 	}
 
 	return

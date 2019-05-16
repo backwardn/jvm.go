@@ -12,19 +12,11 @@ const (
 )
 
 type Options struct {
-	classpath    string
-	verboseClass bool
+	Classpath    string
+	VerboseClass bool
 	Xss          int
 	Xcpuprofile  string
 	XuseJavaHome bool
-}
-
-// getters
-func (self *Options) Classpath() string {
-	return self.classpath
-}
-func (self *Options) VerboseClass() bool {
-	return self.verboseClass
 }
 
 func parseOptions(argReader *ArgReader) *Options {
@@ -36,9 +28,9 @@ func parseOptions(argReader *ArgReader) *Options {
 		optionName := argReader.removeFirst()
 		switch optionName {
 		case "-cp", "-classpath":
-			options.classpath = argReader.removeFirst()
+			options.Classpath = argReader.removeFirst()
 		case "-verbose", "-verbose:class":
-			options.verboseClass = true
+			options.VerboseClass = true
 		case "-Xcpuprofile":
 			options.Xcpuprofile = argReader.removeFirst()
 		case "-XuseJavaHome":

@@ -14,7 +14,7 @@ import (
 )
 
 func startJVM(cmd *Command) {
-	Xcpuprofile := cmd.Options().Xcpuprofile
+	Xcpuprofile := cmd.Options.Xcpuprofile
 	if Xcpuprofile != "" {
 		f, err := os.Create(Xcpuprofile)
 		if err != nil {
@@ -24,13 +24,13 @@ func startJVM(cmd *Command) {
 		defer pprof.StopCPUProfile()
 	}
 
-	options.InitOptions(cmd.Options().VerboseClass(), cmd.Options().Xss, cmd.Options().XuseJavaHome)
+	options.InitOptions(cmd.Options.VerboseClass, cmd.Options.Xss, cmd.Options.XuseJavaHome)
 
-	cp := classpath.Parse(cmd.Options().Classpath())
+	cp := classpath.Parse(cmd.Options.Classpath)
 	heap.InitBootLoader(cp)
 
-	mainClassName := jutil.ReplaceAll(cmd.Class(), ".", "/")
-	mainThread := createMainThread(mainClassName, cmd.Args())
+	mainClassName := jutil.ReplaceAll(cmd.Class, ".", "/")
+	mainThread := createMainThread(mainClassName, cmd.Args)
 	interpreter.Loop(mainThread)
 	interpreter.KeepAlive()
 }
