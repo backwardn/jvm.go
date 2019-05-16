@@ -11,7 +11,7 @@ type Command struct {
 	Args    []string
 }
 
-func ParseCommand(osArgs []string) (cmd *Command, err error) {
+func parseCommand(osArgs []string) (cmd *Command, err error) {
 	defer func() {
 		if r := recover(); r != nil {
 			var ok bool
@@ -22,11 +22,11 @@ func ParseCommand(osArgs []string) (cmd *Command, err error) {
 		}
 	}()
 
-	argReader := &ArgReader{osArgs[1:]}
+	args := osArgs[1:]
 	cmd = &Command{
-		Options: parseOptions(argReader),
-		Class:   argReader.removeFirst(),
-		Args:    argReader.args,
+		Options: parseOptions(&args),
+		Class:   removeFirst(&args),
+		Args:    args,
 	}
 
 	return

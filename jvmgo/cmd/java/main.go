@@ -15,7 +15,7 @@ import (
 )
 
 func main() {
-	cmd, err := ParseCommand(os.Args)
+	cmd, err := parseCommand(os.Args)
 	if err != nil {
 		printUsage()
 	} else {

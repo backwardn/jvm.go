@@ -19,20 +19,20 @@ type Options struct {
 	XuseJavaHome bool
 }
 
-func parseOptions(argReader *ArgReader) Options {
+func parseOptions(args *[]string) Options {
 	options := Options{
 		Xss: 16 * _1k,
 	}
 
-	for argReader.hasMoreOptions() {
-		optionName := argReader.removeFirst()
+	for hasMoreOptions(*args) {
+		optionName := removeFirst(args)
 		switch optionName {
 		case "-cp", "-classpath":
-			options.Classpath = argReader.removeFirst()
+			options.Classpath = removeFirst(args)
 		case "-verbose", "-verbose:class":
 			options.VerboseClass = true
 		case "-Xcpuprofile":
-			options.Xcpuprofile = argReader.removeFirst()
+			options.Xcpuprofile = removeFirst(args)
 		case "-XuseJavaHome":
 			options.XuseJavaHome = true
 		default:
@@ -45,6 +45,16 @@ func parseOptions(argReader *ArgReader) Options {
 	}
 
 	return options
+}
+
+func hasMoreOptions(args []string) bool {
+	return len(args) > 0 && args[0][0] == '-'
+}
+
+func removeFirst(args *[]string) string {
+	first := (*args)[0]
+	*args = (*args)[1:]
+	return first
 }
 
 // -Xss<size>[g|G|m|M|k|K]
