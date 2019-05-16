@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"errors"
 	"strconv"
 	"strings"
 )
@@ -28,27 +28,22 @@ type Options struct {
 }
 
 func parseCommand(osArgs []string) (cmd *Command, err error) {
-	defer func() {
-		if r := recover(); r != nil {
-			var ok bool
-			err, ok = r.(error)
-			if !ok {
-				err = fmt.Errorf("%v", r)
-			}
-		}
-	}()
-
 	args := osArgs[1:]
-	cmd = &Command{
-		Options: parseOptions(&args),
-		Class:   removeFirst(&args),
-		Args:    args,
+	options, err := parseOptions(&args)
+	if err != nil {
+		return cmd, err
 	}
 
-	return
+	class := removeFirst(&args)
+	cmd = &Command{
+		Options: options,
+		Class:   class,
+		Args:    args,
+	}
+	return cmd, nil
 }
 
-func parseOptions(args *[]string) Options {
+func parseOptions(args *[]string) (Options, error) {
 	options := Options{
 		Xss: 16 * _1k,
 	}
@@ -68,12 +63,12 @@ func parseOptions(args *[]string) Options {
 			if strings.HasPrefix(optionName, "-Xss") {
 				options.Xss = parseXss(optionName)
 			} else {
-				panic("Unrecognized option: " + optionName)
+				return options, errors.New("Unrecognized option: " + optionName)
 			}
 		}
 	}
 
-	return options
+	return options, nil
 }
 
 func hasMoreOptions(args []string) bool {
