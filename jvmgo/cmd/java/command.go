@@ -27,15 +27,15 @@ type Command struct {
 	Args    []string
 }
 
-func parseCommand(osArgs []string) (cmd *Command, err error) {
+func parseCommand(osArgs []string) (Command, error) {
 	args := osArgs[1:]
 	options, err := parseOptions(&args)
 	if err != nil {
-		return cmd, err
+		return Command{}, err
 	}
 
 	class := removeFirst(&args)
-	cmd = &Command{
+	cmd := Command{
 		Options: options,
 		Class:   class,
 		Args:    args,
@@ -60,11 +60,14 @@ func parseOptions(args *[]string) (Options, error) {
 		case "-XuseJavaHome":
 			options.XuseJavaHome = true
 		default:
-			if strings.HasPrefix(optionName, "-Xss") {
-				options.Xss = parseXss(optionName)
-			} else {
+			if !strings.HasPrefix(optionName, "-Xss") {
 				return options, errors.New("Unrecognized option: " + optionName)
 			}
+			ss, err := parseXss(optionName)
+			if err != nil {
+				return options, err
+			}
+			options.Xss = ss
 		}
 	}
 
@@ -82,24 +85,24 @@ func removeFirst(args *[]string) string {
 }
 
 // -Xss<size>[g|G|m|M|k|K]
-func parseXss(optionName string) int {
-	size := optionName[4:]
-	switch size[len(size)-1] {
-	case 'g', 'G':
-		return _1g * parseInt(size[:len(size)-1])
-	case 'm', 'M':
-		return _1m * parseInt(size[:len(size)-1])
-	case 'k', 'K':
-		return _1k * parseInt(size[:len(size)-1])
-	default:
-		return parseInt(size)
+func parseXss(optionName string) (int, error) {
+	size := optionName[4:] // remove -Xss
+	if len(size) > 0 {
+		switch size[len(size)-1] {
+		case 'g', 'G':
+			return parseSS(size[:len(size)-1], _1g)
+		case 'm', 'M':
+			return parseSS(size[:len(size)-1], _1m)
+		case 'k', 'K':
+			return parseSS(size[:len(size)-1], _1k)
+		}
 	}
+	return parseSS(size, 1)
 }
 
-func parseInt(str string) int {
-	i, err := strconv.Atoi(str)
-	if err != nil {
-		panic(err.Error())
+func parseSS(size string, unit int) (int, error) {
+	if i, err := strconv.Atoi(size); err == nil {
+		return i * unit, nil
 	}
-	return i
+	return 0, errors.New("Invalid thread stack size: -Xss")
 }

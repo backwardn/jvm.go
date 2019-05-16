@@ -27,7 +27,7 @@ func printUsage() {
 	fmt.Println("usage: jvmgo [-options] class [args...]")
 }
 
-func startJVM(cmd *Command) {
+func startJVM(cmd Command) {
 	Xcpuprofile := cmd.Options.Xcpuprofile
 	if Xcpuprofile != "" {
 		f, err := os.Create(Xcpuprofile)
