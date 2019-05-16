@@ -6,7 +6,7 @@ import (
 
 // java [ options ] class [ arguments ]
 type Command struct {
-	Options *Options
+	Options Options
 	Class   string
 	Args    []string
 }

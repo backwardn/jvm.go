@@ -19,8 +19,8 @@ type Options struct {
 	XuseJavaHome bool
 }
 
-func parseOptions(argReader *ArgReader) *Options {
-	options := &Options{
+func parseOptions(argReader *ArgReader) Options {
+	options := Options{
 		Xss: 16 * _1k,
 	}
 
