@@ -17,6 +17,7 @@ import (
 func main() {
 	cmd, err := parseCommand(os.Args)
 	if err != nil {
+		fmt.Println(err)
 		printUsage()
 	} else {
 		startJVM(cmd)
