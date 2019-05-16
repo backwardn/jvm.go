@@ -12,19 +12,19 @@ const (
 	_1g = _1k * _1m
 )
 
-// java [ options ] class [ arguments ]
-type Command struct {
-	Options Options
-	Class   string
-	Args    []string
-}
-
 type Options struct {
 	Classpath    string
 	VerboseClass bool
 	Xss          int
 	Xcpuprofile  string
 	XuseJavaHome bool
+}
+
+// java [ options ] class [ arguments ]
+type Command struct {
+	Options Options
+	Class   string
+	Args    []string
 }
 
 func parseCommand(osArgs []string) (cmd *Command, err error) {
