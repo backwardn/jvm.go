@@ -31,7 +31,3 @@ func ParseCommand(osArgs []string) (cmd *Command, err error) {
 
 	return
 }
-
-func PrintUsage() {
-	fmt.Println("usage: jvmgo [-options] class [args...]")
-}
