@@ -72,6 +72,6 @@ func (self *Frame) RevertNextPC() {
 func (self *Frame) ClassLoader() *heap.ClassLoader {
 	return heap.BootLoader()
 }
-func (self *Frame) ConstantPool() heap.ConstantPool {
+func (self *Frame) ConstantPool() *heap.ConstantPool {
 	return self.method.ConstantPool()
 }

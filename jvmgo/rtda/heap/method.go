@@ -59,7 +59,7 @@ func (self *Method) copyAttributes(methodInfo cf.MemberInfo) {
 		self.lineNumberTable = codeAttr.LineNumberTableAttribute()
 		if len(codeAttr.ExceptionTable) > 0 {
 			rtCp := self.class.constantPool
-			self.copyExceptionTable(codeAttr.ExceptionTable, &rtCp)
+			self.copyExceptionTable(codeAttr.ExceptionTable, rtCp)
 		}
 	}
 	self.annotationData = methodInfo.RuntimeVisibleAnnotationsAttributeData()
