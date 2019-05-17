@@ -11,10 +11,10 @@ type ConstantPool struct {
 	consts []Constant
 }
 
-func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
+func newConstantPool(owner *Class, cfCp *cf.ConstantPool) ConstantPool {
 	cpInfos := cfCp.Infos
 	consts := make([]Constant, len(cpInfos))
-	rtCp := &ConstantPool{owner, consts}
+	rtCp := ConstantPool{owner, consts}
 
 	for i := 1; i < len(cpInfos); i++ {
 		cpInfo := cpInfos[i]
@@ -32,7 +32,7 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
 		case cf.ConstantMemberrefInfo:
 			consts[i] = newConstantMemberref(cpInfo.(cf.ConstantMemberrefInfo))
 		case cf.ConstantInvokeDynamicInfo:
-			consts[i] = newConstantInvokeDynamic(rtCp, cpInfo.(cf.ConstantInvokeDynamicInfo))
+			consts[i] = newConstantInvokeDynamic(&rtCp, cpInfo.(cf.ConstantInvokeDynamicInfo))
 		case cf.ConstantMethodHandleInfo:
 			consts[i] = newConstantMethodHandle(cpInfo.(cf.ConstantMethodHandleInfo))
 		case cf.ConstantMethodTypeInfo:
@@ -47,7 +47,7 @@ func newConstantPool(owner *Class, cfCp *cf.ConstantPool) *ConstantPool {
 	return rtCp
 }
 
-func (self *ConstantPool) GetConstant(index uint) Constant {
+func (self ConstantPool) GetConstant(index uint) Constant {
 	// todo
 	return self.consts[index]
 }
